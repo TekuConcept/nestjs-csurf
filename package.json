@@ -1,17 +1,22 @@
 {
-  "name": "csurf",
-  "description": "CSRF token middleware",
-  "version": "1.11.0",
-  "author": "Jonathan Ong <me@jongleberry.com> (http://jongleberry.com)",
-  "contributors": [
-    "Douglas Christopher Wilson <doug@somethingdoug.com>"
-  ],
+  "name": "nestjs-csurf",
+  "description": "NestJS CSRF token module",
+  "version": "1.0.0",
+  "author": "TekuConcept",
+  "contributors": [],
   "license": "MIT",
   "repository": "expressjs/csurf",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {},
+  "files": [
+    "LICENSE"
+  ],
   "keywords": [
     "csrf",
     "tokens",
     "middleware",
-    "express"
+    "express",
+    "nestjs"
   ]
 }
