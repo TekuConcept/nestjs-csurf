@@ -76,7 +76,7 @@ They may be added per controller using the nest decorator as follows:
 export class AppController {}
 ```
 
-By default, tokens will only be generated for GET, HEAD, and OPTIONS request methods. To generate for other methods, create and instance
+By default, tokens will only be generated for GET, HEAD, and OPTIONS request methods. To generate for other methods, create an instance
 as follows:
 
 ```ts
@@ -144,9 +144,9 @@ export class AppController {
 
 ### Guard Options
 
-Gate options are, well, optional. That being said, there are two levels
+Guard options are, well, optional. That being said, there are two levels
 where options are applied: global and local. Where local options are not
-provided, the guard defaults to the global settings.
+provided, the guard defaults to the global configuration.
 
 
 Applying options globally:
