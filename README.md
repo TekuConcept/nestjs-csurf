@@ -1,9 +1,8 @@
 # nestjs-csrf
 
-<!-- [![NPM Version][npm-image]][npm-url] -->
-<!-- [![NPM Downloads][downloads-image]][downloads-url] -->
-<!-- [![Build status][travis-image]][travis-url] -->
-<!-- [![Test coverage][coveralls-image]][coveralls-url] -->
+[![NPM Latest Release](https://img.shields.io/npm/v/@tekuconcept/nestjs-csrf.svg)]()
+[![NestJS Version](https://img.shields.io/badge/nestjs-%5E10.0.0-green)](https://nestjs.com/)
+[![GitHub Repo stars](https://img.shields.io/github/stars/TekuConcept/nestjs-csurf?style=social)](https://github.com/TekuConcept/nestjs-csurf)
 
 Nest.js [CSRF](https://en.wikipedia.org/wiki/Cross-site_request_forgery) protection module.
 
@@ -26,7 +25,7 @@ This is a [Nest.js](https://nestjs.com/) module available through the
 [`npm install` command](https://docs.npmjs.com/getting-started/installing-npm-packages-locally):
 
 ```sh
-$ npm install csurf
+$ npm install @tekuconcept/nestjs-csrf
 ```
 
 ## Examples
@@ -279,11 +278,12 @@ An `InternalServerErrorException` will be thrown if a route is accessed and the 
 
 [MIT](LICENSE)
 
-[npm-image]: https://img.shields.io/npm/v/csurf.svg
-[npm-url]: https://npmjs.org/package/csurf
-[travis-image]: https://img.shields.io/travis/expressjs/csurf/master.svg
-[travis-url]: https://travis-ci.org/expressjs/csurf
-[coveralls-image]: https://img.shields.io/coveralls/expressjs/csurf/master.svg
-[coveralls-url]: https://coveralls.io/r/expressjs/csurf?branch=master
-[downloads-image]: https://img.shields.io/npm/dm/csurf.svg
-[downloads-url]: https://npmjs.org/package/csurf
+<!-- [![NPM Downloads][downloads-image]][downloads-url] -->
+<!-- [![Build status][travis-image]][travis-url] -->
+<!-- [![Test coverage][coveralls-image]][coveralls-url] -->
+<!-- [travis-image]: https://img.shields.io/travis/expressjs/csurf/master.svg -->
+<!-- [travis-url]: https://travis-ci.org/expressjs/csurf -->
+<!-- [coveralls-image]: https://img.shields.io/coveralls/expressjs/csurf/master.svg -->
+<!-- [coveralls-url]: https://coveralls.io/r/expressjs/csurf?branch=master -->
+<!-- [downloads-image]: https://img.shields.io/npm/dm/csurf.svg -->
+<!-- [downloads-url]: https://npmjs.org/package/@tekuconcept/nestjs-csrf -->
