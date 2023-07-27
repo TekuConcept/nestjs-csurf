@@ -1,3 +1,5 @@
+/// <reference path="./types/express-request.d.ts" />
+
 /*!
  * csurf
  * Copyright(c) 2011 Sencha Inc.
@@ -11,17 +13,15 @@ import {
     Injectable,
     CanActivate,
     ExecutionContext,
-    Inject,
     Optional,
     InternalServerErrorException,
-    ForbiddenException
 } from '@nestjs/common'
-import { Reflector } from '@nestjs/core'
 import { CookieOptions, Request, Response } from 'express'
 import { CsrfGeneratorOptions } from './csrf.generator'
 import CookieSignature from 'cookie-signature'
 import CsrfGenerator from './csrf.generator'
 import Cookie from 'cookie'
+import 'reflect-metadata'
 
 export interface CsrfCookieOptions extends CookieOptions {
     key?: string
@@ -54,10 +54,8 @@ export class CsrfGuard implements CanActivate {
     private static globalContext: CsrfGuardContext | undefined = CsrfGuard.getContext()
     private context: CsrfGuardContext
 
-    constructor(
-        @Inject(Reflector) private readonly reflector: Reflector,
-        @Optional() options?: CsrfGuardOptions
-    ) { this.context = CsrfGuard.getContext(options || {}) }
+    constructor(@Optional() options?: CsrfGuardOptions)
+    { this.context = CsrfGuard.getContext(options || {}) }
 
     private static getContext(options?: CsrfGuardOptions) {
         const opts = options || {}
@@ -92,19 +90,20 @@ export class CsrfGuard implements CanActivate {
         const res = context.switchToHttp().getResponse<Response>()
 
         // @CsrfCheck(false) - don't perform csrf check
-        const csrfIgnoreRoute = !!this.reflector.get<boolean>('csrf-check-ignore', context.getHandler())
-        
+        const csrfIgnoreRoute = !!Reflect.getMetadata('csrf-check-ignore', context.getHandler())
+
         // @CsrfCheck(true) - perform csrf check regardless of method
-        const csrfIncludeRoute = !!this.reflector.get<boolean>('csrf-check-include', context.getHandler())
+        const csrfIncludeRoute = !!Reflect.getMetadata('csrf-check-include', context.getHandler())
+
         const method = context.switchToHttp().getRequest<Request>().method
         const ignored = (method in this.context.ignoreMethods) && this.context.ignoreMethods[method]
-        
+
         // validate the configuration against request
         const c = JSON.stringify(this.context)
         if (!CsrfGuard.verifyConfiguration(req, this.context)) {
             throw new InternalServerErrorException('invalid csrf configuration')
         }
-        
+
         // get the secret from the request
         let secret = CsrfGuard.getSecret(req, this.context)
         let token: string
@@ -115,31 +114,31 @@ export class CsrfGuard implements CanActivate {
             let sec = !this.context.cookie
                 ? CsrfGuard.getSecret(req, this.context)
                 : secret
-            
+
             // use cached token if secret has not changed
             if (token && sec === secret) return token
-            
+
             // generate & set new secret
             if (sec === undefined) {
                 sec = this.context.tokenRepo.secretSync()
                 CsrfGuard.setSecret(req, res, sec, this.context)
             }
-            
+
             // update changed secret
             secret = sec
-            
+
             // create new token
             token = this.context.tokenRepo.create(secret)
-            
+
             return token
         }
-        
+
         // generate & set secret
         if (!secret) {
             secret = this.context.tokenRepo.secretSync()
             CsrfGuard.setSecret(req, res, secret, this.context)
         }
-        
+
         // these checks need to happen after csrfToken() is defined
         // otherwise you'll get "request.csrfToken is not a function"
         if (csrfIgnoreRoute) return true
@@ -148,7 +147,8 @@ export class CsrfGuard implements CanActivate {
         // verify the incoming token
         const value = this.context.valueFrom(req)
         const result = this.context.tokenRepo.verify(secret, value)
-        if (!result) throw new ForbiddenException('invalid csrf token')
+        // if (!result) throw new ForbiddenException('invalid csrf token')
+        if (!result) return false
 
         return true
     }

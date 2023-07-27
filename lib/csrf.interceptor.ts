@@ -7,14 +7,13 @@
 import {
     CallHandler,
     ExecutionContext,
-    Inject,
     Injectable,
     NestInterceptor,
     Optional
 } from '@nestjs/common'
-import { Reflector } from '@nestjs/core'
 import { Request, Response } from 'express'
 import { Observable, map } from 'rxjs'
+import 'reflect-metadata'
 
 export interface CsrfInterceptorOptions {
     /** RESTful Methods to check for CSRF token. */
@@ -27,10 +26,7 @@ const DEFAULT_INCLUDE_METHODS = [ 'GET', 'HEAD', 'OPTIONS' ]
 export class CsrfInterceptor implements NestInterceptor {
     private includeMethods: Array<string>
 
-    constructor(
-        @Inject(Reflector) private readonly reflector: Reflector,
-        @Optional() options?: CsrfInterceptorOptions
-    ) {
+    constructor(@Optional() options?: CsrfInterceptorOptions) {
         const opts = options || {}
         this.includeMethods = opts.methods || DEFAULT_INCLUDE_METHODS
         for (let i = 0; i < this.includeMethods.length; i++) {
@@ -40,9 +36,11 @@ export class CsrfInterceptor implements NestInterceptor {
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
         // @CsrfGen(true)
-        const csrfGenOnRoute = !!this.reflector.get<boolean>('csrf-gen-include', context.getHandler())
+        const csrfGenOnRoute = !!Reflect.getMetadata('csrf-gen-include', context.getHandler())
+
         // @CsrfGen(false)
-        const csrfIgnoreOnRoute = !!this.reflector.get<boolean>('csrf-gen-ignore', context.getHandler())
+        const csrfIgnoreOnRoute = !!Reflect.getMetadata('csrf-gen-ignore', context.getHandler())
+
         const request = context.switchToHttp().getRequest<Request>()
 
         if (csrfIgnoreOnRoute) return next.handle()

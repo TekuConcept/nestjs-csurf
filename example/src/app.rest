@@ -26,8 +26,8 @@ Content-Type: application/json
 
 POST http://localhost:3000/
 Content-Type: application/json
-X-CSRF-Token: D37FTTe0-qSVl8DgdAvdgKrM2Z5KvRkGYXHU
-Cookie: connect.sid=s%3AfwEflrc2bd_MKuIppWXKBqyx1O8rv-wi.m4AGmUhATNUsao0ySdOXb0QcvW7GGc3DabD3%2BGaaZIo; Path=/; HttpOnly
+X-CSRF-Token: bVDGcB9P-Is9zgn_h-gn_kk4VB0FI1lUaMxU
+Cookie: connect.sid=s%3Aq8EEdy2iOGiku1v9_eyuCGeqNWfUg_YN.g1CTjCO%2B4oDtAOOTqhJibgE%2F%2FAJepmSvBNLvSwQRCag; Path=/; HttpOnly
 
 {
     "message": "Hello World!"

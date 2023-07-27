@@ -1,4 +1,4 @@
-# nestjs-csurf
+# nestjs-csrf
 
 <!-- [![NPM Version][npm-image]][npm-url] -->
 <!-- [![NPM Downloads][downloads-image]][downloads-url] -->

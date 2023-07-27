@@ -6,10 +6,10 @@
  * MIT Licensed
  */
 
-import rndm from 'rndm'
-import uid from 'uid-safe'
-import compare from 'tsscmp'
-import crypto from 'crypto'
+import * as rndm from 'rndm'
+import * as uid from 'uid-safe'
+import * as crypto from 'crypto'
+import compare from './tsc-comp'
 
 const EQUAL_GLOBAL_REGEXP = /=/g
 const PLUS_GLOBAL_REGEXP  = /\+/g

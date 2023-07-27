@@ -9,8 +9,9 @@
     "url": "https://github.com/TekuConcept/nestjs-csurf/issues"
   },
   "homepage": "https://github.com/TekuConcept/nestjs-csurf#readme",
-  "main": "index.ts",
-  "type": "module",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "type": "commonjs",
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\"",
@@ -34,7 +35,6 @@
     "reflect-metadata": "^0.1.13",
     "rndm": "^1.2.0",
     "rxjs": "^7.8.1",
-    "tsscmp": "^1.0.6",
     "uid-safe": "^2.1.5"
   },
   "devDependencies": {
@@ -43,7 +43,6 @@
     "@types/express": "^4.17.17",
     "@types/node": "^20.3.1",
     "@types/rndm": "^1.2.0",
-    "@types/tsscmp": "^1.0.0",
     "@types/uid-safe": "^2.1.2",
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
