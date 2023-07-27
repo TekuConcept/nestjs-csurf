@@ -1,0 +1,52 @@
+
+#####################################################################
+
+# Generate a CSRF token
+
+GET http://localhost:3000/
+
+
+#####################################################################
+
+# Send a request without a CSRF token
+# This should fail with a 403 Forbidden
+
+POST http://localhost:3000/
+Content-Type: application/json
+
+{
+    "message": "Goodbye World!"
+}
+
+#####################################################################
+
+# Send a request with a CSRF token
+# NOTE: unless REST Client is configured to save cookies, set
+# the CSRF token and cookie received from the get request.
+
+POST http://localhost:3000/
+Content-Type: application/json
+X-CSRF-Token: D37FTTe0-qSVl8DgdAvdgKrM2Z5KvRkGYXHU
+Cookie: connect.sid=s%3AfwEflrc2bd_MKuIppWXKBqyx1O8rv-wi.m4AGmUhATNUsao0ySdOXb0QcvW7GGc3DabD3%2BGaaZIo; Path=/; HttpOnly
+
+{
+    "message": "Hello World!"
+}
+
+#####################################################################
+
+# Get a message without a CSRF token
+
+GET http://localhost:3000/de
+
+
+#####################################################################
+
+# Send a successful post request without a CSRF token
+
+POST http://localhost:3000/de
+Content-Type: application/json
+
+{
+    "message": "Auf Weidersehen!"
+}
