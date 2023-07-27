@@ -1,6 +1,6 @@
 {
   "name": "@tekuconcept/nestjs-csrf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "NestJS CSRF Token Module",
   "author": "Chris Walker (TekuConcept)",
   "private": false,
