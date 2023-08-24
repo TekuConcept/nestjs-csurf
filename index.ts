@@ -4,4 +4,4 @@
  * MIT Licensed
  */
 
-export * from './lib'
+export * from './dist'

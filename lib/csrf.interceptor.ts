@@ -1,5 +1,5 @@
 /*!
- * nestjs-csurf
+ * nestjs-csrf
  * Copyright(c) 2023 Chris Walker
  * MIT Licensed
  */
@@ -14,50 +14,62 @@ import {
 import { Request, Response } from 'express'
 import { Observable, map } from 'rxjs'
 import 'reflect-metadata'
-
-export interface CsrfInterceptorOptions {
-    /** RESTful Methods to check for CSRF token. */
-    methods?: Array<string>
-}
-
-const DEFAULT_INCLUDE_METHODS = [ 'GET', 'HEAD', 'OPTIONS' ]
+import {
+    CsrfContext,
+    CsrfMiddleware,
+    CsrfMiddlewareOptions
+} from './csrf.middleware'
 
 @Injectable()
 export class CsrfInterceptor implements NestInterceptor {
-    private includeMethods: Array<string>
+    private context: CsrfContext
 
-    constructor(@Optional() options?: CsrfInterceptorOptions) {
-        const opts = options || {}
-        this.includeMethods = opts.methods || DEFAULT_INCLUDE_METHODS
-        for (let i = 0; i < this.includeMethods.length; i++) {
-            this.includeMethods[i] = this.includeMethods[i].toUpperCase()
-        }
+    constructor(@Optional() options?: CsrfMiddlewareOptions) {
+        this.context = CsrfMiddleware.getContext(options || {})
     }
 
     intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+        const request = context.switchToHttp().getRequest<Request>()
+        const response = context.switchToHttp().getResponse<Response>()
+
         // @CsrfGen(true)
         const csrfGenOnRoute = !!Reflect.getMetadata('csrf-gen-include', context.getHandler())
+        // @CsrfGenAuth()
+        const csrfGenOnAuth = !!Reflect.getMetadata('csrf-gen-auth', context.getHandler())
+
+        const method = request.method.toUpperCase()
+        const createOnMethod =
+            (method in this.context.methods.create) &&
+            (this.context.methods.create[method])
+        if (!createOnMethod && !csrfGenOnRoute && !csrfGenOnAuth) {
+            return next.handle()
+        }
 
         // @CsrfGen(false)
         const csrfIgnoreOnRoute = !!Reflect.getMetadata('csrf-gen-ignore', context.getHandler())
-
-        const request = context.switchToHttp().getRequest<Request>()
-
         if (csrfIgnoreOnRoute) return next.handle()
 
         return next
         .handle()
-        .pipe(
-            map(data => {
-                if (this.includeMethods.includes(request.method) || csrfGenOnRoute) {
-                    const response = context.switchToHttp().getResponse<Response>()
-                    // @ts-ignore - can't get library typings right for this at the moment
-                    const token = request.csrfToken()
-                    response.header('X-CSRF-Token', token)
-                }
+        .pipe(map(data => {
+            if (csrfGenOnAuth) {
+                if (request.isAuthenticated())
+                    return this.createToken(data, request, response)
+                else return data
+            }
+            else return this.createToken(data, request, response)
+        }))
+    }
 
-                return data
-            }),
-        )
+    private createToken(data: any, req: Request, res: Response) {
+        try {
+            const token = CsrfMiddleware.generateToken(req, res, this.context)
+            res.header('X-CSRF-Token', token)
+            return data
+        }
+        catch (e) {
+            res.status(400).send({ msg: e.message })
+            return undefined
+        }
     }
 }

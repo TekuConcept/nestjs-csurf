@@ -18,7 +18,7 @@
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
-    "@tekuconcept/nestjs-csrf": "^1.0.0",
+    "@tekuconcept/nestjs-csrf": "^1.1.0",
     "cookie": "^0.5.0",
     "cookie-parser": "^1.4.6",
     "cookie-signature": "^1.2.1",

@@ -5,19 +5,6 @@
 
 GET http://localhost:3000/
 
-
-#####################################################################
-
-# Send a request without a CSRF token
-# This should fail with a 403 Forbidden
-
-POST http://localhost:3000/
-Content-Type: application/json
-
-{
-    "message": "Goodbye World!"
-}
-
 #####################################################################
 
 # Send a request with a CSRF token
@@ -26,11 +13,45 @@ Content-Type: application/json
 
 POST http://localhost:3000/
 Content-Type: application/json
-X-CSRF-Token: bVDGcB9P-Is9zgn_h-gn_kk4VB0FI1lUaMxU
-Cookie: connect.sid=s%3Aq8EEdy2iOGiku1v9_eyuCGeqNWfUg_YN.g1CTjCO%2B4oDtAOOTqhJibgE%2F%2FAJepmSvBNLvSwQRCag; Path=/; HttpOnly
+X-CSRF-Token: 7SKFAcMp-kkCJzvx2lj9bh_xp99nVCFvduco
+Cookie: connect.sid=s%3A8pxvBDllmDdhlF7sBgyfnsb0g44Ia5eu.xrQ8E%2F2HUzpBXIFH1NoVUzWyxeQS%2FA82gW9aP9Nz8%2F8; Path=/; HttpOnly
 
 {
     "message": "Hello World!"
+}
+
+#####################################################################
+
+# Generate a CSRF token on successful login
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "access": true
+}
+
+#####################################################################
+
+# Don't generate a CSRF token on successful login
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "access": false
+}
+
+#####################################################################
+
+# Send a request without a CSRF token
+# This should fail with a 400 Bad Request
+
+POST http://localhost:3000/
+Content-Type: application/json
+
+{
+    "message": "Goodbye World!"
 }
 
 #####################################################################

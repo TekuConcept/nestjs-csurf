@@ -24,7 +24,7 @@ export interface CsrfGeneratorOptions {
 }
 
 /** Token generation/verification class. */
-export default class CsrfGenerator {
+export class CsrfGenerator {
     private saltLength: number
     private secretLength: number
 

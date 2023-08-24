@@ -27,3 +27,16 @@ export const CsrfGen = (enabled?: boolean) => {
     const e = !!enabled
     return SetMetadata(e ? 'csrf-gen-include' : 'csrf-gen-ignore', true)
 }
+
+/**
+ * This decorator allows one to only generate a
+ * csrf token when the user is authenticated.
+ * 
+ * True:  Generates a new csrf token when passport's
+ *        `request.isAuthenticated()` returns true.
+ * False: No token is generated.
+ * No @CsrfGenAuth reverts to the interceptor's default gen pattern
+ */
+export const CsrfGenAuth = (enabled?: boolean) => {
+    return SetMetadata('csrf-gen-auth', enabled ?? true)
+}

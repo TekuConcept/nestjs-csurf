@@ -14,7 +14,7 @@ const SessionModuleBase = createModule(() => {
     return session({
         secret: 'my-secret-session-key',
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
     })
 })
 
