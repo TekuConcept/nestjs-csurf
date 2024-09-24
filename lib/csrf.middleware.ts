@@ -163,7 +163,7 @@ function setSecret(
             value = 's:' + CookieSignature.sign(val, secret)
         }
 
-        setCookie(res, value, context.cookie.key as string, context.cookie)
+        setCookie(res, context.cookie.key as string, value, context.cookie)
     }
     // set secret on session
     else if (req[context.sessionKey])
